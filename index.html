@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enlace · Traslados de pacientes</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <section id="login" class="login-screen">
+    <div class="login-card">
+      <div class="brand"><span class="brand-icon">↔</span> enlace<span class="brand-dot">.</span></div>
+      <span class="eyebrow">COORDINACIÓN DE TRASLADOS</span>
+      <h1>Dos ciudades.<br>Un mismo tablero.</h1>
+      <p>Organiza los viajes de pacientes y acompañantes y conoce cuántas unidades necesitas.</p>
+      <label for="operator-name">Tu nombre</label>
+      <input id="operator-name" maxlength="60" value="Administrador de prueba" placeholder="Nombre del administrador">
+      <label>Un solo acceso para administrar ambas ciudades</label>
+      <button class="city-login" id="admin-login"><span class="city-letter">AB</span><span><strong>Entrar como administrador</strong><small>Registrar salidas, confirmar acompañantes y gestionar regresos</small></span><b>→</b></button>
+      <div class="demo-note">Prototipo con datos ficticios · Sin contraseña<br>Los datos se guardan en este navegador.</div>
+    </div>
+    <div class="login-visual"><span class="eyebrow">CADA ASIENTO CUENTA</span><div class="route-visual"><span>A</span><div>·········· <b>↔</b> ··········</div><span>B</span></div><h2>Una ida planeada.<br>Un regreso sin sorpresas.</h2><p>16 pasajeros por unidad.<br>Pacientes y acompañantes, siempre en la cuenta.</p></div>
+  </section>
+
+  <div id="application" hidden>
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-icon">↔</span> enlace<span class="brand-dot">.</span></div>
+      <div class="sidebar-caption">OPERACIÓN DIARIA</div>
+      <button class="nav-item active" data-scroll="top"><span>▦</span> Tablero global</button>
+      <button class="nav-item" data-scroll="patients"><span>♧</span> Pacientes y acompañantes</button>
+      <button class="nav-item" id="help-button"><span>ⓘ</span> Cómo funciona</button>
+      <div class="sidebar-bottom"><span class="prototype-badge">PROTOTIPO</span><p>Ciudades conectadas.<br>Traslados coordinados.</p><small>Datos ficticios · Versión de ejemplo</small></div>
+    </aside>
+    <div class="main-shell" id="top">
+      <header class="topbar"><span>Coordinación de traslados <span class="breadcrumb">/ Tablero global</span></span><div class="user-section"><span class="avatar" id="avatar">AB</span><div><strong id="user-name"></strong><small id="user-city"></small></div><button class="button small" id="logout" title="Cerrar sesión" aria-label="Cerrar sesión">Salir</button></div></header>
+      <main>
+        <div class="page-heading"><div><div class="eyebrow">CIUDAD A ↔ CIUDAD B</div><h1>Tablero de traslados</h1><p>Todos los pasajeros. Una sola vista para decidir.</p></div><div class="heading-actions"><span class="local-badge"><i></i> Demo local</span><button class="button primary" id="new-button">＋ Registrar paciente</button></div></div>
+        <div class="date-toolbar"><div><label for="plan-date">Fecha de operación</label><div class="date-picker"><button class="icon-button" id="previous-date" aria-label="Día anterior">‹</button><input type="date" id="plan-date" required><button class="icon-button" id="next-date" aria-label="Día siguiente">›</button></div><button class="text-button" id="today-button">Hoy</button></div><span id="sync-label">Datos de ejemplo</span></div>
+        <div id="stats" class="stats-grid"></div>
+        <section class="planning-card" aria-label="Planeación de unidades"><div class="planning-main"><span class="bus-icon">↔</span><div><span class="eyebrow">RECOMENDACIÓN PARA CIUDAD A</span><h2 id="recommendation" aria-live="polite" aria-atomic="true"></h2><p id="recommendation-detail"></p><p id="plan-capacity"></p></div></div><div class="planning-numbers"><div><strong id="outbound-units"></strong><small>para la ida</small></div><span>+</span><div><strong id="extra-units"></strong><small>adicionales</small></div><span>=</span><div class="total-number"><strong id="total-units"></strong><small>enviar desde A</small></div></div><p id="plan-change" class="plan-change" hidden></p><div class="planning-footnote">Capacidad: 16 pasajeros por unidad, sin contar al chofer. Se supone que las unidades enviadas desde A están disponibles para el regreso de ese día.</div></section>
+        <div id="pending-alert" class="notice"></div>
+        <section id="patients" class="table-card"><div class="table-heading"><div><h2>Pacientes y acompañantes <span id="record-count" class="count-badge"></span></h2><p id="role-hint"></p></div><button class="button" id="export-button">↓ Exportar CSV</button></div><div class="table-tools"><div class="filter-tabs" id="filters"><button data-filter="all" class="selected">Todos</button><button data-filter="return">Regresan</button><button data-filter="pending">Por confirmar</button><button data-filter="stay">Permanecen en B</button><button data-filter="outbound">Salidas de hoy</button></div><input class="search-input" id="search" type="search" placeholder="Buscar persona…" aria-label="Buscar paciente o acompañante"></div><div class="table-scroll"><table><thead><tr><th>Paciente / acompañante</th><th>Salida de A</th><th>Cita en B</th><th>Paciente</th><th>Acompañante</th><th></th></tr></thead><tbody id="patient-rows"></tbody></table></div><div class="table-footer"><span id="table-summary"></span><div><button class="button small" id="prev-page">←</button><span id="page-label"></span><button class="button small" id="next-page">→</button></div></div></section>
+        <div class="bottom-note"><span>El cálculo usa todos los registros, aunque filtres la tabla. Los regresos atrasados siguen pendientes hasta marcarlos como completados.</span><button class="text-button" id="reset-button">Restablecer ejemplo</button></div>
+        <footer>ENLACE <span>Prototipo de logística · Datos ficticios guardados en este navegador</span></footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="modal"><div class="modal-heading"><h2 id="modal-title"></h2><button class="icon-button" id="close-modal" aria-label="Cerrar">✕</button></div><div id="modal-content"></div></dialog>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

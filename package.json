@@ -1,0 +1,12 @@
+{
+    "private":  true,
+    "name":  "enlace-prototipo",
+    "version":  "1.0.0",
+    "type":  "module",
+    "scripts":  {
+                    "test":  "node --test tests/logistics.test.mjs",
+                    "build":  "node scripts/build-demo.mjs",
+                    "dev":  "node server.mjs",
+                    "start":  "node server.mjs"
+                }
+}
